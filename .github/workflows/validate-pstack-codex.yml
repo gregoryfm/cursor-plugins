@@ -1,0 +1,34 @@
+name: Validate pstack for Codex
+
+on:
+  pull_request:
+    paths:
+      - "pstack-codex/**"
+      - "pstack/**"
+      - ".agents/plugins/marketplace.json"
+      - ".github/workflows/validate-pstack-codex.yml"
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: "1.3.6"
+      - name: Validate package and unchanged Cursor resources
+        run: python3 pstack-codex/scripts/validate.py
+      - name: Test Codex helpers
+        run: python3 -m unittest discover -s pstack-codex/tests -v
+      - name: Install locked workflow helper dependencies
+        working-directory: pstack-codex/skills/poteto-mode/scripts
+        run: bun install --frozen-lockfile
+      - name: Test workflow helpers
+        working-directory: pstack-codex/skills/poteto-mode/scripts
+        run: bun test orch watch-pr check-plan.test.ts
+      - name: Check workflow helper types
+        working-directory: pstack-codex/skills/poteto-mode/scripts
+        run: bun run typecheck

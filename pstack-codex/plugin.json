@@ -1,0 +1,30 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "pstack-codex",
+  "version": "0.15.25-codex.1",
+  "description": "Pstack workflows for Codex, with explicit external adapter gates and a feature parity map.",
+  "author": {
+    "name": "Lauren Tan"
+  },
+  "homepage": "https://github.com/gregoryfm/cursor-plugins/tree/main/pstack-codex",
+  "repository": "https://github.com/gregoryfm/cursor-plugins",
+  "license": "MIT",
+  "keywords": [
+    "pstack",
+    "poteto-mode",
+    "workflow",
+    "principles",
+    "agent-style",
+    "subagents",
+    "unslop"
+  ],
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "pstack for Codex",
+        "shortDescription": "Verified workflows, review panels, and orchestration",
+        "logo": "./assets/logo.png"
+      }
+    }
+  }
+}
