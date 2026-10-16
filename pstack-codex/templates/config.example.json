@@ -1,0 +1,85 @@
+{
+  "schema_version": 1,
+  "budget": "large",
+  "roles": {
+    "feature, refactoring": [
+      {
+        "model": "inherit-parent",
+        "execution": "native"
+      }
+    ],
+    "bug-fix": [
+      {
+        "model": "inherit-parent",
+        "execution": "native"
+      }
+    ],
+    "perf-issue": [
+      {
+        "model": "inherit-parent",
+        "execution": "native"
+      }
+    ],
+    "hillclimb": [
+      {
+        "model": "inherit-parent",
+        "execution": "native"
+      }
+    ],
+    "judgment and prose": [
+      {
+        "model": "inherit-parent",
+        "execution": "native"
+      }
+    ],
+    "hardest tasks": [
+      {
+        "model": "inherit-parent",
+        "execution": "native"
+      }
+    ],
+    "how explorer": [
+      {
+        "model": "inherit-parent",
+        "execution": "native"
+      }
+    ],
+    "how explainer": [
+      {
+        "model": "inherit-parent",
+        "execution": "native"
+      }
+    ],
+    "why investigators": [
+      {
+        "model": "inherit-parent",
+        "execution": "native"
+      }
+    ],
+    "why synthesizer": [
+      {
+        "model": "inherit-parent",
+        "execution": "native"
+      }
+    ],
+    "reflect tooling": [
+      {
+        "model": "inherit-parent",
+        "execution": "native"
+      }
+    ],
+    "reflect judgment, divergent, synthesizer": [
+      {
+        "model": "inherit-parent",
+        "execution": "native"
+      }
+    ],
+    "swarm workers": [
+      {
+        "model": "inherit-parent",
+        "execution": "native"
+      }
+    ]
+  },
+  "adapters": {}
+}
