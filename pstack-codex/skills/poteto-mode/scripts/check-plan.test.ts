@@ -95,6 +95,20 @@ test("rejects backtick info strings containing a backtick", () => {
 	expect(result.stderr).toContain('"## Example only" after Close the program is not an appendix');
 });
 
+test("ignores prose punctuation inside matching multi-backtick code spans", () => {
+	for (const count of [2, 3, 4]) {
+		const delimiter = "`".repeat(count);
+		runPlan(`Use ${delimiter}echo \`x\`: “quoted” — example${delimiter}.\n`, 0);
+	}
+});
+
+test("checks prose following a multi-backtick span and unmatched delimiters", () => {
+	const outside = runPlan("Use ``echo `x`: y``. Bad: prose.\n", 1);
+	expect(outside.stderr).toContain("mid-sentence colon");
+	const unmatched = runPlan("Use ``unclosed: bad` here.\n", 1);
+	expect(unmatched.stderr).toContain("mid-sentence colon");
+});
+
 test("the planning playbook's documented checker runs outside the plugin repository", () => {
     const playbook = readFileSync(join(import.meta.dir, "../playbooks/multi-phase-plan.md"), "utf8");
     const documented = playbook.match(/Run `node ([^ ]+) <plan.md>`/);

@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "pstack-codex",
-  "version": "0.15.25-codex.1",
+  "version": "0.15.36-codex.1",
   "description": "Pstack workflows for Codex, with explicit external adapter gates and a feature parity map.",
   "author": {
     "name": "Lauren Tan"

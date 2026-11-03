@@ -44,6 +44,10 @@ Provide `create`, `inspect`, `test`, `disable`, and event delivery to the approv
 
 For Benny, new top-level Slack messages must reach both procedures, with the trusted triage identity and original channel/thread timestamp intact. Desktop schedules cannot supply this event contract. Eligible ChatGPT web event tasks still need a tested bridge to repository execution and real app control. See `../automations/benny/PARITY.md`. No automatic polling fallback.
 
+## Program event supervision
+
+Orchestrate uses native PR/CI subscriptions when available. Otherwise the webhook/event adapter supplies subscriptions, durable authenticated event IDs, deduplication, acknowledgement, failed-delivery recovery, and scoped wakes to the coordinator. Record the PR and head revision in each receipt; reconcile the live forge state before acting. A reconnect must recover the same subscription and unseen events without replaying a mutation. Missing event delivery is BLOCKED. The plugin supplies no subscription service, and timed polling is not a substitute for this contract.
+
 ## Live acceptance
 
 No real provider, worker host, webhook receiver, credential flow, or Slack trigger is provisioned by this conversion. Fixture process tests prove only request transport and failure handling. Record provider/environment, exact revision, request/task ID, result identities, evidence paths, restart outcome, and date when testing a real adapter. Configuration alone never changes a parity status to passed.

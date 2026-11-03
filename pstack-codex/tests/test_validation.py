@@ -25,7 +25,7 @@ class RetentionTest(unittest.TestCase):
         return subprocess.run([sys.executable, str(self.repo / 'pstack-codex/scripts/validate.py')], text=True, capture_output=True)
 
     def test_missing_resource_and_mapping_cannot_pass_together(self):
-        relative = 'skills/poteto-mode/scripts/orch/store.ts'
+        relative = 'skills/poteto-mode/scripts/watch-pr/github.ts'
         (self.repo / 'pstack-codex' / relative).unlink()
         value = json.loads(self.mapping.read_text())
         value['files'] = [row for row in value['files'] if row['source'] != relative]
@@ -48,6 +48,22 @@ class RetentionTest(unittest.TestCase):
         result = self.validate()
         self.assertNotEqual(result.returncode, 0)
         self.assertIn('Cursor source changed', result.stderr)
+
+    def test_changed_copied_compiler_fails_hash_check(self):
+        target = self.repo / 'pstack-codex/skills/statechart/scripts/ir.ts'
+        target.write_text(target.read_text() + '\nchanged copy\n')
+        result = self.validate()
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn('copied resource changed', result.stderr)
+
+    def test_mismatched_port_version_is_rejected(self):
+        manifest = self.repo / 'pstack-codex/plugin.json'
+        value = json.loads(manifest.read_text())
+        value['version'] = '0.15.25-codex.1'
+        manifest.write_text(json.dumps(value))
+        result = self.validate()
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn('port version differs', result.stderr)
 
 
 if __name__ == '__main__':

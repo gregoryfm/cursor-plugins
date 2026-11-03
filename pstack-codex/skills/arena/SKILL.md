@@ -22,7 +22,7 @@ Every candidate gets the same prompt, so the prompt is the contract.
 
 Spawn all N subagents in one message asynchronously, each with the task, the path to the shared grounding, its own output path, and instructions to produce the artifact and a short rationale naming the alternatives it considered and what it rejected.
 
-If a candidate produces no output, proceed with N-1 and note the dropout.
+If any required candidate produces no output, report the run as BLOCKED. Do not reduce the panel or replace its model.
 
 ## Phase C: Cross-judge
 
@@ -46,4 +46,4 @@ Verify the synthesized artifact like any other output, per the **prove-it-works*
 
 ## Outputs
 
-One synthesized artifact, with a short synthesis note alongside naming the base and why, the cross-judge's verdict, each graft with its source candidate, what was rejected and why, any convergence or dropouts, and the verification result.
+One synthesized artifact, with a short synthesis note alongside naming the base and why, the cross-judge's verdict or BLOCKED status, each graft with its source candidate, what was rejected and why, any convergence, and the verification result.

@@ -20,6 +20,9 @@ manifest = json.loads((root / "plugin.json").read_text())
 check(manifest["name"] == "pstack-codex", "wrong plugin identity")
 check(manifest["$schema"] == "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json", "portable manifest schema missing")
 source_map = json.loads((root / "docs/source-map.json").read_text())
+source_manifest = json.loads((repo / "pstack/.cursor-plugin/plugin.json").read_text())
+check(source_map["source_version"] == source_manifest["version"], "source version differs from Cursor manifest")
+check(manifest["version"].startswith(source_map["source_version"] + "-codex."), "port version differs from source baseline")
 source_paths = [entry["source"] for entry in source_map["files"]]
 source_inventory = {str(file.relative_to(repo / "pstack")) for file in (repo / "pstack").rglob("*") if file.is_file() and "node_modules" not in file.parts}
 check(set(source_paths) == source_inventory, "source inventory differs from source-map entries")
@@ -29,6 +32,8 @@ for entry in source_map["files"]:
     target = root / entry["destination"]
     check(target.is_file(), f"lost resource: {entry['source']}")
     check(source.is_file() and hashlib.sha256(source.read_bytes()).hexdigest() == entry["sha256"], f"Cursor source changed: {entry['source']}")
+    if entry.get("mode") == "copy":
+        check(target.is_file() and hashlib.sha256(target.read_bytes()).hexdigest() == entry["sha256"], f"copied resource changed: {entry['destination']}")
 original_skills = {f.parent.name for f in (repo / "pstack/skills").glob("*/SKILL.md")}
 skills = list((root / "skills").glob("*/SKILL.md"))
 check(original_skills <= {f.parent.name for f in skills}, "original skill missing")

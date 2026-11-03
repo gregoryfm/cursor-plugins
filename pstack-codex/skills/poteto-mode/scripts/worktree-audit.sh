@@ -64,6 +64,11 @@ fi
 script_dir=$(cd "$(dirname "$0")" && pwd)
 history_helper="$script_dir/../../../scripts/runtime.py"
 now=$(date +%s)
+if date -u -j -f '%Y-%m-%d' '1970-01-01' +%s >/dev/null 2>&1; then
+	date_to_epoch() { date -u -j -f '%Y-%m-%d' "$1" +%s; }
+else
+	date_to_epoch() { date -u -d "$1" +%s; }
+fi
 
 echo "# base: $base"
 printf "SIZE\tAGE\tMERGED\tDIRTY\tREMOTE\tPR\tLAST_CWD_CHAT\tBUCKET\tWORKTREE\n"
@@ -105,7 +110,7 @@ git worktree list --porcelain | awk '/^worktree /{print $2}' | while read -r wt;
 	fi
 	last_ts=0
 	if [ "$last" != "unknown" ]; then
-		last_ts=$(date -j -f '%Y-%m-%d' "$last" +%s 2>/dev/null || date -d "$last" +%s 2>/dev/null || echo 0)
+		last_ts=$(date_to_epoch "$last" 2>/dev/null || echo 0)
 	fi
 	recent=$([ "$last_ts" -gt 0 ] 2>/dev/null && [ $(( (now - last_ts) / 86400 )) -le 4 ] && echo yes || echo no)
 
