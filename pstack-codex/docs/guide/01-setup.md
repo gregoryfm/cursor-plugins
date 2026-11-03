@@ -8,6 +8,10 @@ Setup reads `.agents/pstack/config.json` in the target repository. It shows ever
 
 Ordinary missing roles inherit the parent. Mixed-family panels require configured distinct families and verified provider access. They remain BLOCKED until available. Do not replace them silently with multiple personas. See [adapter requirements](../adapters.md).
 
+## Optional verification skills
+
+Setup offers once to create an app-driving verification skill when no harness exists, and once to create a formal verification skill when no property checker exists. Each is optional. Use [`$create-formal-verification-skill`](../../skills/create-formal-verification-skill/SKILL.md) for costly concurrency, retry, parser or state-machine properties that tests rarely reach. It records the verified scope and bounds. Run [`$maintain-formal-verification-skill`](../../skills/maintain-formal-verification-skill/SKILL.md) after covered code changes. [Verify and ship](./06-verify-and-ship.md#prove-a-property-with-a-formal-verification-skill) explains both.
+
 ## Run your first task
 
 ```text

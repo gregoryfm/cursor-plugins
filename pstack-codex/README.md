@@ -1,14 +1,14 @@
 # pstack for Codex
 
-Pstack's engineering workflows for Codex. This package preserves the 54 original skills, 24 principle leaves, 23 playbooks, two delegate roles, scripts, guides, and dormant Benny pack. It also bundles `deslop`, `control-cli`, and `control-ui` from cursor-team-kit so verification and shipping have their companion procedures.
+Pstack's engineering workflows for Codex. This package preserves the 58 upstream skills (61 registered skills including companions), 24 principle leaves, 23 playbooks, two delegate roles, scripts, guides, and dormant Benny pack. It also bundles `deslop`, `control-cli`, and `control-ui` from cursor-team-kit so verification and shipping have their companion procedures.
 
-The separate `../pstack/` package is unchanged. Source baseline: pstack 0.15.25 at `f713f14203cd6420cec13cd7c55c32d598dbab68`. The original MIT licence and the companion skills' [licence](licenses/cursor-team-kit.txt) are retained. [Source map](docs/source-map.json) records each original resource and its port destination.
+The separate `../pstack/` package is unchanged. Source baseline: pstack 0.15.36 at `cbc0061b841077f5fcdd0a7564b74554169a87e4`. The original MIT licence and the companion skills' [licence](licenses/cursor-team-kit.txt) are retained. [Source map](docs/source-map.json) records each original resource and its port destination.
 
 **This is a Codex port with explicit parity gaps, not a claim of full runtime equivalence.** Mixed-family panels, remote workers, webhook bots, and Benny's Slack triggers require external adapters. Every live acceptance check is listed in the [parity map](docs/parity.md). No service, schedule, model provider, or credential is installed automatically.
 
 ## Install locally
 
-Requires a current local Codex client with plugins and subagents. Python 3.11+ runs the local helper and validation tools. Bun runs the preserved orchestration and PR-watcher tools. Git, GitHub CLI, jq, and repo-specific app harnesses are needed for the workflows that use them. Authenticate GitHub CLI separately.
+Requires a current local Codex client with plugins and subagents. Python 3.11+ runs the local helper and validation tools. Bun runs the PR-watcher and plan-checker tools. Statechart supports Node 22.18–22.x, Node 23.6+, Bun 1.1.5+, or Deno 2+, and needs Java/TLC for real model checks. Git, GitHub CLI, jq, and repo-specific app harnesses are needed for the workflows that use them. Authenticate GitHub CLI separately.
 
 This repository includes `.agents/plugins/marketplace.json` at its root. From the repository root, register its local marketplace if the client has not discovered it:
 
@@ -53,6 +53,14 @@ The second command previews installation. Add `--apply` to copy both TOML roles 
 
 Copy `templates/config.example.json` to the target `.agents/pstack/config.json`, then run `$setup-pstack` to choose actual available models. Keep secrets out of that file. See [adapter contracts](docs/adapters.md) before configuring external providers. `check-config` checks structure; it never claims credentials or provider access work.
 
+## Changes in 0.15.36
+
+The port adds formal verification creation/maintenance, the statechart compiler, and video catch-ups. `$sharpen` now rewrites a prompt without doing the task. `$interrogate` keeps only failures the lead reproduces in isolated outputs. Orchestrate uses native coordination and event tools; its old bookkeeping executable is removed. Autopilot-stack delivers verified PRs without merging and stacks only real dependencies.
+
+The Codex contract stays stricter than upstream. Required multi-family seats and cross-judges fail closed. A missing event or cloud backend stays BLOCKED. Worktree history never certifies deletion safety. See the [intentional differences and acceptance gates](docs/parity.md).
+
+Statechart's first real run can provision pinned Java/TLC through `mise`; use existing `JAVA` and `TLA2TOOLS` where available and agree any missing dependency installation before running it. Its `--view` module executes trusted local JavaScript. Pele rendering and `$ketchup-video` need their own working renderers and live media checks. Pure tests do not establish those capabilities.
+
 ## Available workflows
 
 | skill | use it when |
@@ -60,18 +68,19 @@ Copy `templates/config.example.json` to the target `.agents/pstack/config.json`,
 | [`$poteto-mode`](./skills/poteto-mode/SKILL.md) | default entry point for any non-trivial task. |
 | [`$poteto-help`](./skills/poteto-help/SKILL.md) | you're new to pstack, or unsure which skill, playbook, or principle fits. finds out what you're trying to do, answers that part, and hands you a prompt to type. runs only when you type `$poteto-help`. |
 | [`$in-your-own-words`](./skills/in-your-own-words/SKILL.md) | you want the agent to play back your goal and the problem before it starts. runs only when you type `$in-your-own-words`. |
-| [`$sharpen`](./skills/sharpen/SKILL.md) | you want a task approached the way a top expert would, aimed at what you're really after, without overspecifying it or deciding your choices for you. |
+| [`$sharpen`](./skills/sharpen/SKILL.md) | you want a prompt made deeper, not bigger, before you send it: what a top professional would do that you didn't ask for, the raw material they'd start from, their methods and tools, and an outside check that the result is right. hands back the rewritten prompt and leaves your choices open. doesn't do the task. runs only when you type `$sharpen`. |
 | [`$how`](./skills/how/SKILL.md) | you want a walkthrough of how a subsystem works. |
 | [`$why`](./skills/why/SKILL.md) | you want to know why something was built this way. discovers available MCPs at run time and queries each evidence category in parallel (source control, issue tracker, long-form docs, real-time chat, infra observability, error tracking, analytics warehouse). |
 | [`$recall`](./skills/recall/SKILL.md) | you're starting or resuming work and want your recent context on a topic rebuilt from your own chat history and the shared record, handed back as a tight current-state brief. |
-| [`$ketchup`](./skills/ketchup/SKILL.md) | you want what changed in this chat since your last message, in a few plain sentences and small visuals, with just enough context on each action item to make the call. |
+| [`$ketchup`](./skills/ketchup/SKILL.md) | you want what changed in this chat since your last message, in plain words and small visuals, with every item waiting on you listed and decidable from the reply alone, even when that makes the reply long. |
+| [`$ketchup-video`](./skills/ketchup-video/SKILL.md) | you want the `$ketchup` catch-up as a short subtitled video of slides, with the calls waiting on you as text under it. |
 | [`$blast-radius`](./skills/blast-radius/SKILL.md) | you have a small-looking change and want to know what else it could break, with the one fact it's safe because of proven by running code, not asserted. |
 | [`$architect`](./skills/architect/SKILL.md) | you're about to write code that crosses a function boundary and want the caller's usage, types, and module shape settled first. |
 | [`$arena`](./skills/arena/SKILL.md) | you want N parallel attempts at the same thing, then to grab the best parts of each. |
 | [`$swarm`](./skills/swarm/SKILL.md) | you want N parallel workers across different slices or races, then one aggregated report. |
-| [`$interrogate`](./skills/interrogate/SKILL.md) | you have a diff and want different models to try to break it, including a strict code-quality lens. |
+| [`$interrogate`](./skills/interrogate/SKILL.md) | you have a diff and want different models to try to break it, keeping only findings a run proves. |
 | [`$automate-me`](./skills/automate-me/SKILL.md) | you want your own `-mode` skill, drafted from how you've actually worked. |
-| [`$make-bot-ui`](./skills/make-bot-ui/SKILL.md) | you want a page or dashboard whose buttons wake a configured bot through the webhook adapter, including the sender-key handoff and Tailscale. |
+| [`$make-bot-ui`](./skills/make-bot-ui/SKILL.md) | you want a page or dashboard whose buttons wake a configured bot through an authenticated webhook adapter, including the sender-key handoff and Tailscale. |
 | [`$setup-pstack`](./skills/setup-pstack/SKILL.md) | you want to pick which models pstack uses per role. detects your models and writes a config rule. |
 | [`$reflect`](./skills/reflect/SKILL.md) | a long task landed and you want the recipe captured as a skill edit. |
 | [`$correct`](./skills/correct/SKILL.md) | you keep correcting agents for the same mistakes. mines history for mistake classes, fixes each at the highest level that works (architecture, then types, lint, and ci, then tests, with docs last), and keeps a table pairing each rule with what enforces it. |
@@ -84,10 +93,12 @@ Copy `templates/config.example.json` to the target `.agents/pstack/config.json`,
 | [`$show-me-your-work`](./skills/show-me-your-work/SKILL.md) | you want a reviewable decision trail. logs decisions to a tsv you can commit. |
 | [`$create-verification-skill`](./skills/create-verification-skill/SKILL.md) | your project has no scripted way to prove app behavior. generates a project-local verify skill with a feature map, for any language or platform. |
 | [`$maintain-verification-skill`](./skills/maintain-verification-skill/SKILL.md) | your verify skill's feature map has drifted from the app. source wave + one live pass, at most one PR of proven corrections. |
+| [`$create-formal-verification-skill`](./skills/create-formal-verification-skill/SKILL.md) | tests can't reach the case that breaks a race, retry, state machine, parser, or unsafe code. verifies one property with the tool that fits and generates a project-local skill to recheck it on every change. |
+| [`$maintain-formal-verification-skill`](./skills/maintain-formal-verification-skill/SKILL.md) | code your formal verification covers has changed since it was last checked. updates the model, harness, or properties to match the code, reruns, and says whether each failure is drift in the verification or a bug in the code. |
+| [`$statechart`](./skills/statechart/SKILL.md) | someone who owns the behavior needs to see it, not read a spec. checks a tla+ model, draws what the user sees as a mermaid statechart, marks each state that breaks a rule, and gives the shortest path to each one. |
 | [`$unslop`](./skills/unslop/SKILL.md) | you're cleaning up writing. removes AI tells. |
 | [`$bro`](./skills/bro/SKILL.md) | you want the last message restated in plain human language, no jargon. |
 | [`$technical-writing`](./skills/technical-writing/SKILL.md) | layered doc standard (Diátaxis + Google developer style + STE + Global English) for docs, RFCs, readmes, PR descriptions, commit messages. |
-
 
 
 All 24 principles remain under `skills/principle-*/`. All 23 playbooks remain under `skills/poteto-mode/playbooks/`; the [complete map](docs/parity.md) names each one. The [guide](docs/guide/README.md) covers prompting, design, building, verification, shipping, and long runs. Its illustrations are inherited explanatory artwork, not screenshots of Codex or evidence of live parity.
@@ -107,8 +118,18 @@ python3 pstack-codex/scripts/validate.py
 python3 -m unittest discover -s pstack-codex/tests -v
 cd pstack-codex/skills/poteto-mode/scripts
 bun install --frozen-lockfile
-bun test orch watch-pr check-plan.test.ts
+bun test watch-pr check-plan.test.ts
 bun run typecheck
 ```
 
-Validation checks resource retention, original source hashes, skill metadata/policy, TOML roles, and local links. Runtime tests use temporary fixtures and a local adapter process. They do not contact model providers, Slack, or other live services. Retained helper tests exercise orchestration storage, PR policy/query parsing, and plan validation. Fresh-client plugin discovery and live workflow tests stay separate in the parity map.
+Validation checks resource retention, original source hashes, skill metadata/policy, TOML roles, and local links. Runtime tests use temporary fixtures and a local adapter process. They do not contact model providers, Slack, or other live services. Retained helper tests exercise PR policy/query parsing and plan validation. Fresh-client plugin discovery and live workflow tests stay separate in the parity map.
+
+From the repository root, test the statechart compiler and replay fixtures separately:
+
+```sh
+cd pstack-codex/skills/statechart/scripts
+bun install --frozen-lockfile
+node --disable-warning=ExperimentalWarning --test test/*.test.ts
+```
+
+Use a supported Node runtime. Tests that need real TLC skip unless `TLA2TOOLS` names an available jar; Java must also be available. The renderer test installs pinned media dependencies into `XDG_CACHE_HOME`, so select an isolated writable cache. On macOS, a canonical `TMPDIR=/private/tmp` avoids temporary-path aliasing in the upstream symlink fixture. Compiler tests, a real model check, media generation and client presentation remain separate checks.

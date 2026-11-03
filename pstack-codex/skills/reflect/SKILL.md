@@ -43,6 +43,8 @@ Present the synthesizer's full Accepted / Rejected / Backlog output and wait for
 
 File Backlog items only when the user authorised tracker writes. Otherwise present the proposed items. Only the Accepted list waits for approval.
 
+Never edit a skill under `plugins/cache/`. Before approval, show its destination, `.agents/skills/<skill>/` or `~/.agents/skills/<skill>/`. After approval, copy the skill folder there and edit the copy. Never open a PR or push.
+
 Follow each approved row's Routing exactly:
 
 - Trivial existing-skill edit (a one-line bullet, a tightened sentence, a stale fact corrected): the parent does it directly.
